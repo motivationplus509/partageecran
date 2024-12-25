@@ -1,0 +1,959 @@
+<html><head><base href="/">
+<title>PartageVision - Remote Control Platform</title>
+<style>
+:root {
+  --primary: #3b82f6;
+  --secondary: #64748b;
+  --accent: #38bdf8;
+  --background: #f0f9ff;
+  --text: #334155;
+  --card-bg: #ffffff;
+  --hover: #2563eb;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: var(--background);
+  color: var(--text);
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.header {
+  background: var(--card-bg);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--primary);
+  text-decoration: none;
+  letter-spacing: -0.5px;
+  position: relative;
+  padding-bottom: 1.2rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+}
+
+.nav-link {
+  color: var(--secondary);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  padding: 0.5rem 0;
+  position: relative;
+}
+
+.nav-link:after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--primary);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover:after {
+  width: 100%;
+}
+
+.hero {
+  padding: 5rem 0;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  color: var(--text);
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.hero p {
+  font-size: 1.25rem;
+  color: var(--secondary);
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
+
+.connection-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 2.5rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  max-width: 450px;
+  margin: 2rem auto;
+  transition: transform 0.3s ease;
+}
+
+.connection-card:hover {
+  transform: translateY(-2px);
+}
+
+.input-group {
+  margin-bottom: 1.5rem;
+}
+
+.input {
+  width: 100%;
+  padding: 0.875rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  margin-top: 0.5rem;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.button {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 1rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.button:hover {
+  background: var(--hover);
+  transform: translateY(-1px);
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2.5rem;
+  padding: 5rem 0;
+}
+
+.feature-card {
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-3px);
+}
+
+.feature-icon {
+  color: var(--primary);
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.offline-mode {
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  padding: 1.25rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.status-indicator {
+  width: 12px;
+  height: 12px;
+  background: #22c55e;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+.permission-settings {
+  margin-top: 1.5rem;
+  text-align: left;
+}
+
+.permission-toggle {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.audio-controls {
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+  background: #f8fafc;
+  border-radius: 8px;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.8; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.user-code-section {
+  position: absolute;
+  top: 1rem;
+  right: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-code-input {
+  padding: 0.5rem;
+  border: 1px solid var(--primary);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  width: 120px;
+}
+
+.user-code-display {
+  background: var(--primary);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.quick-transfer {
+  margin-top: 1rem;
+  padding: 1.5rem;
+  background: #f1f5f9;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.quick-transfer:hover {
+  background: #e2e8f0;
+  transform: translateY(-2px);
+}
+
+.transfer-select {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 0.75rem;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.transfer-select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.transfer-button:hover {
+  background: var(--hover);
+  transform: translateY(-1px);
+}
+
+.workspace-info {
+  background: #e0f2fe;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.workspace-user {
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.auth-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.auth-modal {
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.auth-tabs {
+  display: flex;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+}
+
+.auth-tab {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+
+.auth-tab.active {
+  border-bottom-color: var(--primary);
+  color: var(--primary);
+}
+
+.auth-form {
+  display: none;
+}
+
+.auth-form.active {
+  display: block;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.auth-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}
+
+.auth-submit {
+  width: 100%;
+  background: var(--primary);
+  color: white;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.auth-submit:hover {
+  background: var(--hover);
+}
+
+.auth-back {
+  background: var(--secondary);
+  color: white;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.auth-back:hover {
+  background: #4b5563;
+}
+
+.author-credit {
+  font-size: 0.7rem;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 100%;
+  padding: 2px 8px;
+  background: linear-gradient(90deg, #ff0080, #7928ca, #ff4d4d, #f97316);
+  background-size: 300% 300%;
+  color: white;
+  border-radius: 12px;
+  text-shadow: 0 0 5px rgba(255,255,255,0.5);
+  animation: gradientShift 4s ease infinite, glow 2s ease-in-out infinite;
+  white-space: nowrap;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes glow {
+  0% { box-shadow: 0 0 5px rgba(255,255,255,0.5); }
+  50% { box-shadow: 0 0 20px rgba(255,255,255,0.8); }
+  100% { box-shadow: 0 0 5px rgba(255,255,255,0.5); }
+}
+
+.datetime-display {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  font-size: 0.9rem;
+  color: var(--primary);
+  font-weight: 500;
+}
+</style>
+</head>
+<body>
+  <header class="header">
+    <nav class="container nav">
+      <div class="datetime-display" id="datetime"></div>
+      <a href="https://partage.vision" class="logo">RobensonnPartageVision
+        <div class="author-credit">Programmeur Robensonn Pierre</div>
+      </a>
+      <div class="user-code-section">
+        <input type="text" class="user-code-input" placeholder="Code utilisateur" maxlength="7" id="userCodeInput">
+        <div class="user-code-display" id="activeUserCode"></div>
+      </div>
+      <div class="nav-links">
+        <a href="https://partage.vision/features" class="nav-link">Features</a>
+        <a href="https://partage.vision/pricing" class="nav-link">Pricing</a>
+        <a href="https://partage.vision/download" class="nav-link">Download</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="workspace-info">
+        <span>Espace de travail de: <span class="workspace-user" id="currentUser">Utilisateur</span></span>
+      </div>
+      
+      <h1>Partage d'écran Sans Surveillance</h1>
+      <p>Donnez un accès sécurisé à votre écran, même en votre absence</p>
+      
+      <div class="connection-card">
+        <div class="offline-mode">
+          <div class="status-indicator"></div>
+          <span>Mode partage d'écran actif</span>
+        </div>
+        <h2>Configuration de l'Accès</h2>
+        <div class="input-group">
+          <label for="session-id">ID de Session (Automatique)</label>
+          <input type="text" id="session-id" class="input" readonly value="PV-XXXX">
+        </div>
+        
+        <div class="permission-settings">
+          <h3>Autorisations</h3>
+          <div class="permission-toggle">
+            <input type="checkbox" id="keyboard" checked>
+            <label for="keyboard">Contrôle du clavier</label>
+          </div>
+          <div class="permission-toggle">
+            <input type="checkbox" id="mouse" checked>
+            <label for="mouse">Contrôle de la souris</label>
+          </div>
+          <div class="permission-toggle">
+            <input type="checkbox" id="files">
+            <label for="files">Transfert de fichiers</label>
+          </div>
+        </div>
+
+        <div class="audio-controls">
+          <h3>Contrôles Audio</h3>
+          <div class="audio-toggle">
+            <input type="checkbox" id="microphone" checked>
+            <label for="microphone">Microphone</label>
+            <span id="mic-status" class="audio-indicator">Actif</span>
+          </div>
+          <div class="audio-toggle">
+            <input type="checkbox" id="speakers" checked>
+            <label for="speakers">Haut-parleurs</label>
+            <span id="speaker-status" class="audio-indicator">Actif</span>
+          </div>
+          <div class="volume-control">
+            <label for="volume">Volume:</label>
+            <input type="range" id="volume" min="0" max="100" value="75">
+          </div>
+        </div>
+
+        <div class="quick-transfer">
+          <h3>Echange Partage Ecran</h3>
+          <select id="transferUser" class="transfer-select">
+            <option value="">Sélectionner un utilisateur</option>
+            <option value="user1">Utilisateur 1</option>
+            <option value="user2">Utilisateur 2</option>
+            <option value="user3">Utilisateur 3</option>
+          </select>
+          <button class="button transfer-button" id="transferButton" style="margin-top: 0.5rem;">Transférer le partage</button>
+        </div>
+
+        <button class="button" id="start-sharing">Démarrer le Partage</button>
+        <button class="button" id="stop-sharing" style="background: #dc2626; display: none;">Arrêter le Partage</button>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="feature-card">
+        <div class="feature-icon">🔐</div>
+        <h3>Accès Sécurisé</h3>
+        <p>Contrôle total des permissions d'accès</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">👥</div>
+        <h3>Mode Sans Surveillance</h3>
+        <p>Accès distant même en votre absence</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Performance Optimale</h3>
+        <p>Connexion rapide et stable</p>
+      </div>
+    </section>
+  </main>
+
+  <div class="auth-overlay" id="authOverlay">
+    <div class="auth-modal">
+      <div class="auth-tabs">
+        <div class="auth-tab active" data-tab="login">Connexion</div>
+        <div class="auth-tab" data-tab="register">Inscription</div>
+      </div>
+
+      <form class="auth-form active" id="loginForm">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" class="auth-input" required>
+        </div>
+        <div class="form-group">
+          <label>Mot de passe</label>
+          <input type="password" class="auth-input" required>
+        </div>
+        <button type="submit" class="auth-submit">Se connecter</button>
+        <div class="form-group" style="text-align: right;">
+          <a href="#" id="forgotPasswordLink" style="color: var(--primary); text-decoration: none; font-size: 0.9rem;">
+            Mot de passe oublié?
+          </a>
+        </div>
+      </form>
+
+      <form class="auth-form" id="registerForm">
+        <div class="form-group">
+          <label>Nom</label>
+          <input type="text" class="auth-input" required>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" class="auth-input" required>
+        </div>
+        <div class="form-group">
+          <label>Mot de passe</label>
+          <input type="password" class="auth-input" required>
+        </div>
+        <div class="form-group">
+          <label>Confirmer le mot de passe</label>
+          <input type="password" class="auth-input" required>
+        </div>
+        <button type="submit" class="auth-submit">S'inscrire</button>
+      </form>
+
+      <form class="auth-form" id="resetPasswordForm">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" class="auth-input" required>
+        </div>
+        <button type="submit" class="auth-submit">Réinitialiser le mot de passe</button>
+        <button type="button" class="auth-back">Retour</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+function updateDateTime() {
+  const dateTimeElement = document.getElementById('datetime');
+  const now = new Date();
+  const options = { 
+    weekday: 'long', 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  };
+  dateTimeElement.textContent = now.toLocaleDateString('fr-FR', options);
+}
+
+// Update time every second
+setInterval(updateDateTime, 1000);
+updateDateTime(); // Initial call
+
+const startButton = document.querySelector('#start-sharing');
+const stopButton = document.querySelector('#stop-sharing');
+const sessionId = document.querySelector('#session-id');
+const micToggle = document.querySelector('#microphone');
+const speakersToggle = document.querySelector('#speakers');
+const volumeControl = document.querySelector('#volume');
+const micStatus = document.querySelector('#mic-status');
+const speakerStatus = document.querySelector('#speaker-status');
+let sharingActive = false;
+let audioStream = null;
+let screenStream = null;
+
+async function startScreenSharing() {
+  try {
+    screenStream = await navigator.mediaDevices.getDisplayMedia({
+      video: {
+        displaySurface: 'monitor', 
+        logicalSurface: true, 
+        cursor: 'always', 
+        frameRate: { ideal: 30 }, 
+      },
+      audio: micToggle.checked,
+      systemAudio: 'include' 
+    });
+
+    screenStream.getVideoTracks()[0].addEventListener('ended', () => {
+      stopScreenSharing();
+      startButton.style.display = 'block';
+      stopButton.style.display = 'none';
+    });
+
+    return true;
+  } catch (err) {
+    console.error('Error starting screen share:', err);
+    return false;
+  }
+}
+
+function checkSharingStatus() {
+  if (sharingActive && !screenStream?.active) {
+    startScreenSharing().then(success => {
+      if (!success) {
+        console.log('Failed to restore screen sharing session');
+        stopScreenSharing();
+        startButton.style.display = 'block';
+        stopButton.style.display = 'none';
+      }
+    });
+  }
+}
+
+setInterval(checkSharingStatus, 5000);
+
+startButton.addEventListener('click', async () => {
+  const screenStarted = await startScreenSharing();
+  if (!screenStarted) return;
+  
+  const permissions = {
+    keyboard: document.querySelector('#keyboard').checked,
+    mouse: document.querySelector('#mouse').checked,
+    files: document.querySelector('#files').checked,
+    microphone: micToggle.checked,
+    speakers: speakersToggle.checked,
+    volume: volumeControl.value,
+    unlimited: true 
+  };
+  
+  sharingActive = true;
+  startButton.style.display = 'none';
+  stopButton.style.display = 'block';
+  
+  localStorage.setItem('sharingActive', 'true');
+  localStorage.setItem('sharingPermissions', JSON.stringify(permissions));
+  
+  console.log('Partage d\'écran illimité activé avec:', {
+    sessionId: sessionId.value,
+    permissions
+  });
+});
+
+window.addEventListener('load', () => {
+  const wasSharing = localStorage.getItem('sharingActive') === 'true';
+  if (wasSharing) {
+    const savedPermissions = JSON.parse(localStorage.getItem('sharingPermissions') || '{}');
+    startScreenSharing().then(success => {
+      if (success) {
+        sharingActive = true;
+        startButton.style.display = 'none';
+        stopButton.style.display = 'block';
+        Object.entries(savedPermissions).forEach(([key, value]) => {
+          const element = document.querySelector(`#${key}`);
+          if (element) element.checked = value;
+        });
+      }
+    });
+  }
+});
+
+stopButton.addEventListener('click', () => {
+  sharingActive = false;
+  startButton.style.display = 'block';
+  stopButton.style.display = 'none';
+  sessionId.value = generateSessionId();
+  stopScreenSharing();
+  
+  if (audioStream) {
+    audioStream.getTracks().forEach(track => track.stop());
+    audioStream = null;
+  }
+  
+  localStorage.removeItem('sharingActive');
+  localStorage.removeItem('sharingPermissions');
+  
+  console.log('Arrêt du partage d\'écran');
+});
+
+function generateSessionId() {
+  const random = Math.random().toString(36).substring(2, 8).toUpperCase();
+  return `PV-${random}`;
+}
+
+sessionId.value = generateSessionId();
+
+micToggle.addEventListener('change', () => {
+  if (audioStream) {
+    audioStream.getAudioTracks().forEach(track => {
+      track.enabled = micToggle.checked;
+    });
+    micStatus.textContent = micToggle.checked ? 'Actif' : 'Muet';
+    micStatus.classList.toggle('muted', !micToggle.checked);
+  }
+});
+
+speakersToggle.addEventListener('change', () => {
+  speakerStatus.textContent = speakersToggle.checked ? 'Actif' : 'Muet';
+  speakerStatus.classList.toggle('muted', !speakersToggle.checked);
+});
+
+volumeControl.addEventListener('input', e => {
+  console.log(`Volume set to: ${e.target.value}%`);
+});
+
+async function initializeAudio() {
+  try {
+    audioStream = await navigator.mediaDevices.getUserMedia({
+      audio: true
+    });
+    console.log('Audio access granted');
+  } catch (err) {
+    console.error('Error accessing audio:', err);
+    micToggle.checked = false;
+    micStatus.textContent = 'Non disponible';
+    micStatus.classList.add('muted');
+  }
+}
+initializeAudio();
+
+function stopScreenSharing() {
+  if (screenStream) {
+    screenStream.getTracks().forEach(track => track.stop());
+    screenStream = null;
+  }
+}
+
+const userCodeInput = document.querySelector('#userCodeInput');
+const activeUserCode = document.querySelector('#activeUserCode');
+const currentUser = document.querySelector('#currentUser');
+const transferButton = document.querySelector('#transferButton');
+
+function generateUserCode() {
+  return Math.floor(1000000 + Math.random() * 9000000).toString();
+}
+
+function initializeUserCode() {
+  let storedCode = localStorage.getItem('userCode');
+  if (!storedCode) {
+    storedCode = generateUserCode();
+    localStorage.setItem('userCode', storedCode);
+  }
+  activeUserCode.textContent = storedCode;
+  currentUser.textContent = `Utilisateur ${storedCode.slice(-4)}`;
+}
+
+userCodeInput.addEventListener('input', (e) => {
+  if (e.target.value.length === 7) {
+    localStorage.setItem('userCode', e.target.value);
+    activeUserCode.textContent = e.target.value;
+    currentUser.textContent = `Utilisateur ${e.target.value.slice(-4)}`;
+    e.target.value = '';
+  }
+});
+
+transferButton.addEventListener('click', () => {
+  const selectedUser = document.querySelector('#transferUser').value;
+  if (selectedUser) {
+    const confirmed = confirm(`Voulez-vous vraiment transférer le partage d'écran à ${selectedUser}?`);
+    
+    if (confirmed) {
+      transferButton.textContent = 'Transfert en cours...';
+      transferButton.disabled = true;
+      
+      setTimeout(() => {
+        alert(`Partage d'écran transféré avec succès à ${selectedUser}`);
+        transferButton.textContent = 'Transférer le partage';
+        transferButton.disabled = false;
+        document.querySelector('#transferUser').value = '';
+      }, 1500);
+      
+      console.log(`Transfert du partage d'écran à: ${selectedUser}`);
+    }
+  } else {
+    alert('Veuillez sélectionner un utilisateur pour le transfert');
+  }
+});
+
+const authOverlay = document.getElementById('authOverlay');
+const authTabs = document.querySelectorAll('.auth-tab');
+const authForms = document.querySelectorAll('.auth-form');
+const loginForm = document.getElementById('loginForm');
+const registerForm = document.getElementById('registerForm');
+const resetPasswordForm = document.getElementById('resetPasswordForm');
+const forgotPasswordLink = document.getElementById('forgotPasswordLink');
+const backButtons = document.querySelectorAll('.auth-back');
+
+forgotPasswordLink.addEventListener('click', (e) => {
+  e.preventDefault();
+  authForms.forEach(f => f.classList.remove('active'));
+  resetPasswordForm.classList.add('active');
+  authTabs.forEach(t => t.classList.remove('active'));
+});
+
+backButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    authForms.forEach(f => f.classList.remove('active'));
+    loginForm.classList.add('active');
+    authTabs[0].classList.add('active');
+  });
+});
+
+resetPasswordForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const email = resetPasswordForm.querySelector('[type="email"]').value;
+  
+  alert(`Un email de réinitialisation a été envoyé à ${email}`);
+  
+  authForms.forEach(f => f.classList.remove('active'));
+  loginForm.classList.add('active');
+  authTabs[0].classList.add('active');
+});
+
+loginForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const email = loginForm.querySelector('[type="email"]').value;
+  const password = loginForm.querySelector('[type="password"]').value;
+  
+  const users = JSON.parse(localStorage.getItem('users') || '[]');
+  const user = users.find(u => u.email === email);
+  
+  if (!user) {
+    alert('Utilisateur non trouvé. Veuillez vous inscrire.');
+    return;
+  }
+  
+  if (user.password !== password) {
+    alert('Mot de passe incorrect');
+    return;
+  }
+  
+  localStorage.setItem('isLoggedIn', 'true');
+  localStorage.setItem('userEmail', email);
+  
+  authOverlay.style.display = 'none';
+  currentUser.textContent = email.split('@')[0];
+});
+
+registerForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const name = registerForm.querySelector('[type="text"]').value;
+  const email = registerForm.querySelector('[type="email"]').value;
+  const password = registerForm.querySelectorAll('[type="password"]')[0].value;
+  const confirmPassword = registerForm.querySelectorAll('[type="password"]')[1].value;
+  
+  if (password !== confirmPassword) {
+    alert('Les mots de passe ne correspondent pas');
+    return;
+  }
+  
+  const users = JSON.parse(localStorage.getItem('users') || '[]');
+  
+  if (users.some(u => u.email === email)) {
+    alert('Cet email est déjà utilisé');
+    return;
+  }
+  
+  users.push({ name, email, password });
+  localStorage.setItem('users', JSON.stringify(users));
+  
+  localStorage.setItem('isLoggedIn', 'true');
+  localStorage.setItem('userName', name);
+  localStorage.setItem('userEmail', email);
+  
+  authOverlay.style.display = 'none';
+  currentUser.textContent = name;
+});
+
+const isLoggedIn = localStorage.getItem('isLoggedIn');
+if (isLoggedIn) {
+  authOverlay.style.display = 'none';
+}
+
+authTabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    authTabs.forEach(t => t.classList.remove('active'));
+    authForms.forEach(f => f.classList.remove('active'));
+    
+    tab.classList.add('active');
+    const formId = tab.dataset.tab + 'Form';
+    document.getElementById(formId).classList.add('active');
+  });
+});
+
+const logoutBtn = document.createElement('a');
+logoutBtn.href = "#";
+logoutBtn.className = 'nav-link';
+logoutBtn.textContent = 'Déconnexion';
+logoutBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  localStorage.removeItem('isLoggedIn');
+  localStorage.removeItem('userName');
+  localStorage.removeItem('userEmail');
+  location.reload();
+});
+document.querySelector('.nav-links').appendChild(logoutBtn);
+
+initializeUserCode();
+
+window.addEventListener('load', () => {
+  const container = document.querySelector('.author-name-container');
+  if (container) {
+    // Clear any existing content
+    container.innerHTML = '';
+  }
+});
+  </script>
+</body>
+</html>
